@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+
+macs_file="$HOME/.local/share/hostScan/macs"
+oFile="$(pwd)/hosts"
+
+mac_searcher() {
+  grep "Unknown" "$oFile"
+  if [[ $? == 1 ]];then
+    return
+  fi
+  while read -r line;do
+    output="$line"
+    vendors=$(echo "$line" | awk '{print $NF}' | tr -d "()")
+    if [[ $vendors == "Unknown" ]];then
+      mac_id=$(echo "$line" | awk '{print $3}' | awk -F ':' '{ print $1 ":" $2 ":" $3 }')
+      vendor=$(grep -i "$mac_id" "$macs_file" | awk -F '-' '{print $2}')
+      if [[ -n $vendor ]];then
+        output=${line//Unknown/$vendor}
+      fi
+    fi
+    echo "$output" >> tmp
+  done < "$oFile"
+  rm "$oFile"
+  mv tmp "$oFile"
+}
+
+sudo nmap -sn -n 192.168.1.0/24 | awk '/^Nmap scan report/ { printf "%s ", $NF; getline; printf "- "; getline; for (i=3; i<=NF; i++) printf "%s ", $i; print "" }' | head -n -1 > "$oFile"
+mac_searcher

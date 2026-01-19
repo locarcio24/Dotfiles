@@ -1,0 +1,129 @@
+{
+  "layer": "top",
+  "position": "left",
+  "reload_style_on_change": true,
+  "spacing": 0,
+  "output": "HDMI-A-1",
+  "width": 80,
+  "height": 1000,
+  "margin-left": 15,
+  "margin-right": 10,
+  "modules-left": [
+    "sway/workspaces"
+  ],
+  "modules-center": ["clock"],
+  "modules-right": [
+    "cpu",
+    "custom/temperature",
+    "backlight",
+    "pulseaudio",
+    "battery",
+    "network"
+  ],
+
+  "sway/workspaces": {
+    "format": "{icon}",
+    "all-outputs": true,
+    "on-click": "activate",
+    "format-icons": {
+      "1": "",
+      "2": "",
+      "3": "",
+      "4": "",
+      "5": "",
+      "urgent": ""
+    },
+    "persistent-workspaces": {
+      "1": [],
+      "2": [],
+      "3": [],
+      "4": [],
+      "5": []
+    },
+    "sort-by-number": true
+  },
+    // Arch Linux icon -> "󰣇"
+  "network": {
+    "format-wifi": "󰖩",
+    "format-ethernet": "",
+    "tooltip-format-wifi": "{essid} ({signalStrength}%)",
+    "format-linked": "󱘖",
+    "format-disconnected": "󰖪",
+    "interval": 10
+  },
+  "battery": {
+    "states": {
+      "warning": 30,
+      "critical": 15
+    },
+    "format": "{icon}",
+    "format-charging": "󱐋󰁿",
+	  "interval": 1,
+    "format-icons": ["<span color='#FF5555'>󰂎</span>", "󰁼", "󰁿", "󰂁", "󰁹"],
+    "tooltip": true,
+    "tooltip-format": " {capacity}%  {timeTo} "
+  },
+  "pulseaudio": {
+    "format": "{icon}",
+    "format-muted": "󰖁",
+    "tooltip": true,
+    "tooltip-format": " {volume}% ",
+    "format-icons": {
+      "default": [
+        "",
+        "",
+        ""
+      ]
+    },
+    "on-click-right": "pavucontrol -t 3",
+    "on-click": "pactl -- set-sink-mute 0 toggle"
+  },
+  "custom/temperature": {
+    "exec": "/home/locarcio/.config/waybar/minimal/scripts/cpu-temp.sh",
+    "return-type": "json",
+    "format": "{icon}",
+    "format-icons": {
+      "0": "",
+      "1": "",
+      "2": "<span color='#FFB86C'></span>",
+      "3": "<span color='#FF5555'></span>"
+    },
+    "interval": 1,
+    "tooltip": true,
+    "tooltip-format": " {text}ºC "
+  },
+  "cpu": {
+    "interval": 5,
+     "format": "{icon}",
+     "format-icons": [
+          "<span color='#F8F8F2'></span>",
+          "<span color='#FCFCCC'></span>",
+          "<span color='#FCEE83'></span>",
+          "<span color='#FFEB54'></span>",
+          "<span color='#FFD154'></span>",
+          "<span color='#FFA954'></span>",
+          "<span color='#FF5555'></span>",
+          "<span color='#C93232'></span>"
+     ]
+  },
+  "clock": {
+    "interval": 1,
+    "format": "{:%H\n%M}",
+    "tooltip": true,
+    "tooltip-format": "{:L%A, %d/%m/%Y}"
+  },
+  "backlight": {
+    "device": "intel_backlight",
+    "on-click": "~/.local/bin/night-light 3200",
+    "tooltip": true,
+    "tooltip-format": " {percent}% ",
+    "format": "{icon}",
+    "format-icons": [
+      "󰃞",  // 暗 - 深灰
+      "󰃝",  // 中 - 灰
+      "󰃟",  // 亮 - 柠檬黄
+      "󰃠"   // 最亮 - 金色
+    ]
+  }
+}
+

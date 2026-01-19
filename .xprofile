@@ -1,6 +1,0 @@
-setxkbmap es &
-udiskie -t &
-nm-applet &
-volumeicon &
-feh --bg-scale /home/locarcio/Pictures/mountains-2.png &
-cbatticon &
